@@ -1,8 +1,11 @@
+import Layout from "./components/layout"
+import Home from "./pages/home"
+
 function App() {
   return (
-    <>
-      <h1>Hello World!</h1>
-    </>
+    <Layout>
+      <Home />
+    </Layout>
   )
 }
 

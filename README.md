@@ -38,4 +38,4 @@ npm install
 npm run dev
 ```
 
-5. Abra o navegador e acesse `http://localhost:3000` para ver o aplicativo em execução.
+5. Abra o navegador e acesse `http://localhost:5173` para ver o aplicativo em execução.
