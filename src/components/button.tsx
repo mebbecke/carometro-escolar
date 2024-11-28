@@ -8,7 +8,8 @@ const buttonVariants = tv({
       primary:
         "bg-[#4F8CC9] text-white hover:bg-[#3A6CA8] disabled:bg-[#B0B0B0]",
       secondary:
-        "bg-white text-[#4F8CC9] hover:bg-[#4F8CC9] hover:text-white border border-2 border-[#4F8CC9]",
+        "bg-white text-[#4F8CC9] hover:bg-[#4F8CC9] hover:text-white border border-2 border-[#4F8CC9] disabled:border-[#B0B0B0] disabled:text-[#B0B0B0] disabled:hover:bg-white",
+      destructive: "bg-[#E63946] text-white hover:bg-[#C72D38]",
     },
 
     size: {
@@ -27,11 +28,21 @@ interface ButtonProps
   extends ComponentProps<"button">,
     VariantProps<typeof buttonVariants> {
   children: ReactNode
+  className?: string
 }
 
-export function Button({ children, variant, size, ...props }: ButtonProps) {
+export function Button({
+  children,
+  variant,
+  size,
+  className,
+  ...props
+}: ButtonProps) {
   return (
-    <button {...props} className={buttonVariants({ variant, size })}>
+    <button
+      {...props}
+      className={`${buttonVariants({ variant, size })} ${className}`}
+    >
       {children}
     </button>
   )

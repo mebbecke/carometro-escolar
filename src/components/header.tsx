@@ -8,7 +8,11 @@ const Header = () => {
 
   return (
     <header className="mb-4 flex w-full flex-row items-center justify-between bg-[#4F8CC9] px-10 py-5">
-      <h1 className="text-2xl font-bold text-white">Carômetro</h1>
+      <a href="/">
+        <h1 className="cursor:pointer text-2xl font-bold text-white">
+          Carômetro
+        </h1>
+      </a>
 
       {/* Mobile Sidebar */}
       <Dialog.Root open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
@@ -30,24 +34,16 @@ const Header = () => {
               <Dialog.Close>
                 <ul className="space-y-4 text-start">
                   <li>
-                    <a href="/" className="hover:text-[#E4F0FB]">
-                      início
-                    </a>
+                    <a href="/">início</a>
                   </li>
                   <li>
-                    <a href="/carometro" className="hover:text-[#E4F0FB]">
-                      gerar carômetro
-                    </a>
+                    <a href="/carometro">gerar carômetro</a>
                   </li>
                   <li>
-                    <a href="#" className="hover:text-[#E4F0FB]">
-                      sobre
-                    </a>
+                    <a href="#">sobre</a>
                   </li>
                   <li>
-                    <a href="#" className="hover:text-[#E4F0FB]">
-                      feedback
-                    </a>
+                    <a href="#">feedback</a>
                   </li>
                 </ul>
               </Dialog.Close>
