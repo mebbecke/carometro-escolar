@@ -1,14 +1,19 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Plus, Trash2, X } from "lucide-react"
+import html2pdf from "html2pdf.js"
+import { Plus, X } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as Dialog from "@radix-ui/react-dialog"
 import { Button } from "./button"
+import Card from "./card"
 
 const formSchema = z.object({
   image: z.instanceof(FileList), // HTML file input returns a FileList array with File/Blob objects
-  name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
+  name: z
+    .string()
+    .min(3, "O nome deve ter no mínimo 3 caracteres")
+    .max(15, "O nome deve ter no máximo 15 caracteres"),
 })
 
 type Student = {
@@ -21,6 +26,9 @@ type FormSchema = z.infer<typeof formSchema>
 const Table = () => {
   const [students, setStudents] = useState<Student[]>([])
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [isExporting, setIsExporting] = useState(false)
+
+  const isStudentArrayEmpty = students.length === 0
 
   const methods = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -36,6 +44,10 @@ const Table = () => {
     setError,
     reset,
   } = methods
+
+  /* Characters limit handling */
+  const nameLength = methods.watch("name").length
+  const nameLengthLimit = 15
 
   const onSubmit = (data: FormSchema) => {
     if (data.image.length === 0) {
@@ -65,8 +77,6 @@ const Table = () => {
     }
   }
 
-  /* TODO: Toggle alphabetic sort on and off */
-
   const deleteStudent = (index: number) => {
     setStudents(students.filter((_, i) => i !== index))
   }
@@ -75,30 +85,42 @@ const Table = () => {
     setStudents([])
   }
 
-  const isStudentArrayEmpty = students.length === 0
+  const generatePdf = () => {
+    setIsExporting(true)
+    const element = document.querySelector("#carometro")
+
+    if (!element) {
+      console.error(`Elemento com ID "carometro" não encontrado.`)
+      return
+    }
+
+    const opt = {
+      margin: 20,
+      filename: "carometro.pdf",
+      image: { type: "jpeg", quality: 5 },
+    }
+
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .save()
+      .finally(() => {
+        setIsExporting(false)
+      })
+  }
 
   return (
     <div className="flex w-full flex-col gap-3">
-      {/* <Button
-        variant="secondary"
-        size="icon"
-        type="button"
-        aria-label="Filtrar por ordem alfabética"
-        onClick={() => {}}
-        disabled={isStudentArrayEmpty}
-        className={`w-7 ${isSorted ? "border-none bg-[#3A6CA8] text-white" : ""}`}
-      >
-        <AArrowUp />
-      </Button> */}
-      <table className="min-w-full divide-gray-200 border">
-        <thead>
+      {/* Students Table */}
+      {/* <table id="carometro" className="min-w-full border border-gray-200">
+        <thead className="border-b border-b-gray-200 text-sm">
           <tr>
-            <th>Foto do aluno</th>
-            <th>Nome</th>
-            <th>Ações</th>
+            <th className="p-2 text-start">Foto</th>
+            <th className="p-2 text-start">Nome do aluno</th>
+            <th className="hidden-in-pdf p-2 text-center">Ações</th>
           </tr>
         </thead>
-        <tbody className="text-center">
+        <tbody className="divide-y divide-gray-200 text-start">
           {isStudentArrayEmpty ? (
             <tr>
               <td colSpan={3} className="text-center text-sm text-[#B0B0B0]">
@@ -108,15 +130,15 @@ const Table = () => {
           ) : (
             students.map((student, index) => (
               <tr key={index}>
-                <td>
+                <td className="w-[89px] p-1">
                   <img
                     src={student.imageUrl}
                     alt={student.name}
-                    className="h-20 w-20 object-cover"
+                    className="h-20 w-20 rounded-lg object-cover"
                   />
                 </td>
-                <td>{student.name}</td>
-                <td>
+                <td className="px-2">{student.name}</td>
+                <td className="hidden-in-pdf text-center">
                   <button
                     type="button"
                     aria-label="Apagar aluno"
@@ -129,7 +151,29 @@ const Table = () => {
             ))
           )}
         </tbody>
-      </table>
+      </table> */}
+
+      {/* Student Cards */}
+      <div
+        id="carometro"
+        className="flex flex-row flex-wrap items-center justify-center gap-3"
+      >
+        {isStudentArrayEmpty ? (
+          <p className="text-center text-sm text-[#B0B0B0]">
+            Nenhum aluno adicionado
+          </p>
+        ) : (
+          students.map((student, index) => (
+            <Card
+              key={index}
+              imageUrl={student.imageUrl}
+              name={student.name}
+              onDelete={() => deleteStudent(index)}
+              isExporting={isExporting}
+            />
+          ))
+        )}
+      </div>
 
       {/* Add student dialog */}
       <Dialog.Root open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -189,6 +233,11 @@ const Table = () => {
                   className="w-full rounded-lg border border-gray-300 p-2"
                   {...register("name")}
                 />
+                <span
+                  className={`text-sm ${nameLength > nameLengthLimit && "text-red-600"}`}
+                >
+                  {nameLength}/{nameLengthLimit}
+                </span>
                 {errors.name && (
                   <span className="text-sm text-red-600">
                     {errors.name.message}
@@ -239,8 +288,13 @@ const Table = () => {
           </Dialog.Portal>
         </Dialog.Root>
 
-        <Button type="button" className="flex-1" disabled={isStudentArrayEmpty}>
-          Gerar carômetro
+        <Button
+          type="button"
+          className="flex-1"
+          disabled={isStudentArrayEmpty || isExporting}
+          onClick={generatePdf}
+        >
+          {isExporting ? "Gerando PDF..." : "Gerar Carômetro"}
         </Button>
       </div>
     </div>

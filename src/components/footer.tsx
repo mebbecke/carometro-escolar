@@ -2,7 +2,7 @@ import { Github, Globe } from "lucide-react"
 
 const Footer = () => {
   return (
-    <footer className="flex w-full items-center justify-center gap-2 py-2">
+    <footer className="mt-6 flex w-full items-center justify-center gap-2 py-2">
       <p>2024 | Marina Ebbecke |</p>
       <a
         href="https://marinaebbecke.dev.br"
