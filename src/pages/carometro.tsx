@@ -1,4 +1,4 @@
-import Table from "../components/table"
+import CarometroEdit from "../components/carometro-edit"
 
 const Carometro = () => {
   return (
@@ -10,7 +10,7 @@ const Carometro = () => {
           clique em "Gerar Carômetro".
         </p>
       </div>
-      <Table />
+      <CarometroEdit />
     </div>
   )
 }

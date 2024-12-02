@@ -23,7 +23,7 @@ type Student = {
 
 type FormSchema = z.infer<typeof formSchema>
 
-const Table = () => {
+const CarometroEdit = () => {
   const [students, setStudents] = useState<Student[]>([])
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isExporting, setIsExporting] = useState(false)
@@ -111,48 +111,6 @@ const Table = () => {
 
   return (
     <div className="flex w-full flex-col gap-3">
-      {/* Students Table */}
-      {/* <table id="carometro" className="min-w-full border border-gray-200">
-        <thead className="border-b border-b-gray-200 text-sm">
-          <tr>
-            <th className="p-2 text-start">Foto</th>
-            <th className="p-2 text-start">Nome do aluno</th>
-            <th className="hidden-in-pdf p-2 text-center">Ações</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 text-start">
-          {isStudentArrayEmpty ? (
-            <tr>
-              <td colSpan={3} className="text-center text-sm text-[#B0B0B0]">
-                Nenhum aluno adicionado
-              </td>
-            </tr>
-          ) : (
-            students.map((student, index) => (
-              <tr key={index}>
-                <td className="w-[89px] p-1">
-                  <img
-                    src={student.imageUrl}
-                    alt={student.name}
-                    className="h-20 w-20 rounded-lg object-cover"
-                  />
-                </td>
-                <td className="px-2">{student.name}</td>
-                <td className="hidden-in-pdf text-center">
-                  <button
-                    type="button"
-                    aria-label="Apagar aluno"
-                    onClick={() => deleteStudent(index)}
-                  >
-                    <Trash2 className="size-5 hover:text-red-600" />
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table> */}
-
       {/* Student Cards */}
       <div
         id="carometro"
@@ -301,4 +259,4 @@ const Table = () => {
   )
 }
 
-export default Table
+export default CarometroEdit
