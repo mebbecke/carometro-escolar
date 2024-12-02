@@ -44,15 +44,28 @@ const Table = () => {
       const reader = new FileReader()
       reader.readAsDataURL(data.image[0]) // reads the first item of FileList array as a URL
       reader.onloadend = () => {
-        setStudents([
-          ...students,
-          { imageUrl: reader.result as string, name: data.name },
-        ])
+        /* Insert the new student at the end of the array */
+        // setStudents([
+        //   ...students,
+        //   { imageUrl: reader.result as string, name: data.name },
+        // ])
+
+        /* Insert the new student in alphabetic order */
+        const newStudent = {
+          imageUrl: reader.result as string,
+          name: data.name,
+        }
+        setStudents((prevStudents) => {
+          const updatedStudents = [...prevStudents, newStudent]
+          return updatedStudents.sort((a, b) => a.name.localeCompare(b.name))
+        })
       }
       setIsAddDialogOpen(false)
       reset()
     }
   }
+
+  /* TODO: Toggle alphabetic sort on and off */
 
   const deleteStudent = (index: number) => {
     setStudents(students.filter((_, i) => i !== index))
@@ -66,6 +79,17 @@ const Table = () => {
 
   return (
     <div className="flex w-full flex-col gap-3">
+      {/* <Button
+        variant="secondary"
+        size="icon"
+        type="button"
+        aria-label="Filtrar por ordem alfabética"
+        onClick={() => {}}
+        disabled={isStudentArrayEmpty}
+        className={`w-7 ${isSorted ? "border-none bg-[#3A6CA8] text-white" : ""}`}
+      >
+        <AArrowUp />
+      </Button> */}
       <table className="min-w-full divide-gray-200 border">
         <thead>
           <tr>
