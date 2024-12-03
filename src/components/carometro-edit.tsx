@@ -13,7 +13,7 @@ const formSchema = z.object({
   name: z
     .string()
     .min(3, "O nome deve ter no mínimo 3 caracteres")
-    .max(15, "O nome deve ter no máximo 15 caracteres"),
+    .max(30, "O nome deve ter no máximo 30 caracteres"),
 })
 
 type Student = {
@@ -47,7 +47,7 @@ const CarometroEdit = () => {
 
   /* Characters limit handling */
   const nameLength = methods.watch("name").length
-  const nameLengthLimit = 15
+  const nameLengthLimit = 30
 
   const onSubmit = (data: FormSchema) => {
     if (data.image.length === 0) {
@@ -95,7 +95,7 @@ const CarometroEdit = () => {
     }
 
     const opt = {
-      margin: 20,
+      margin: [10, 10, 10, 10],
       filename: "carometro.pdf",
       image: { type: "jpeg", quality: 5 },
     }
@@ -122,13 +122,14 @@ const CarometroEdit = () => {
           </p>
         ) : (
           students.map((student, index) => (
-            <Card
-              key={index}
-              imageUrl={student.imageUrl}
-              name={student.name}
-              onDelete={() => deleteStudent(index)}
-              isExporting={isExporting}
-            />
+            <div key={index} className="flex flex-col items-center gap-1">
+              <Card
+                imageUrl={student.imageUrl}
+                name={student.name}
+                onDelete={() => deleteStudent(index)}
+                isExporting={isExporting}
+              />
+            </div>
           ))
         )}
       </div>
@@ -187,7 +188,7 @@ const CarometroEdit = () => {
                 <input
                   id="name"
                   type="text"
-                  placeholder="Exemplo: Enzo Gabriel dos Santos"
+                  placeholder="Exemplo: Enzo Gabriel da Silva"
                   className="w-full rounded-lg border border-gray-300 p-2"
                   {...register("name")}
                 />
