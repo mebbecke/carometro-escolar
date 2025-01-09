@@ -1,10 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as Dialog from "@radix-ui/react-dialog"
+import html2pdf from "html2pdf.js"
+import { Plus, X } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import html2pdf from "html2pdf.js"
-import { Plus, X } from "lucide-react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as Dialog from "@radix-ui/react-dialog"
 import { Button } from "./button"
 import Card from "./card"
 
@@ -27,6 +27,7 @@ const CarometroEdit = () => {
   const [students, setStudents] = useState<Student[]>([])
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isExporting, setIsExporting] = useState(false)
+  const [className, setClassName] = useState("")
 
   const isStudentArrayEmpty = students.length === 0
 
@@ -96,7 +97,7 @@ const CarometroEdit = () => {
 
     const opt = {
       margin: [10, 10, 10, 10],
-      filename: "carometro.pdf",
+      filename: `Carômetro - ${className || "Turma sem nome"}.pdf`,
       image: { type: "jpeg", quality: 5 },
     }
 
@@ -109,29 +110,69 @@ const CarometroEdit = () => {
       })
   }
 
+  const changeClassName = () => {
+    const name = document.getElementById("class") as HTMLInputElement
+    if (!name.value) setClassName("")
+    setClassName(name.value)
+  }
+
+  const clearClassName = () => {
+    const name = document.getElementById("class") as HTMLInputElement
+    name.value = ""
+    setClassName("")
+  }
+
   return (
     <div className="flex w-full flex-col gap-3">
+      <div className="flex flex-col">
+        <label htmlFor="class" className="text-sm font-semibold">
+          Nome da turma (opcional)
+        </label>
+        <div className="flex flex-col gap-2">
+          <input
+            id="class"
+            type="text"
+            className="rounded-lg border border-gray-300 p-2"
+          />
+          <div className="flex w-full gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="full"
+              onClick={() => clearClassName()}
+            >
+              Limpar turma
+            </Button>
+            <Button type="button" onClick={() => changeClassName()} size="full">
+              Definir turma
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Student Cards */}
-      <div
-        id="carometro"
-        className="flex flex-row flex-wrap items-center justify-center gap-3"
-      >
-        {isStudentArrayEmpty ? (
-          <p className="text-center text-sm text-[#B0B0B0]">
-            Nenhum aluno adicionado
-          </p>
-        ) : (
-          students.map((student, index) => (
-            <div key={index} className="flex flex-col items-center gap-1">
-              <Card
-                imageUrl={student.imageUrl}
-                name={student.name}
-                onDelete={() => deleteStudent(index)}
-                isExporting={isExporting}
-              />
-            </div>
-          ))
-        )}
+      <div id="carometro" className="flex flex-col items-center gap-2">
+        {/* Class name */}
+        {className && <h2 className="text-lg font-semibold">{className}</h2>}
+
+        <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+          {isStudentArrayEmpty ? (
+            <p className="text-center text-sm text-[#B0B0B0]">
+              Nenhum aluno adicionado
+            </p>
+          ) : (
+            students.map((student, index) => (
+              <div key={index} className="flex flex-col items-center gap-1">
+                <Card
+                  imageUrl={student.imageUrl}
+                  name={student.name}
+                  onDelete={() => deleteStudent(index)}
+                  isExporting={isExporting}
+                />
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       {/* Add student dialog */}

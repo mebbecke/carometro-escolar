@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { MenuIcon, X } from "lucide-react"
 import * as Dialog from "@radix-ui/react-dialog"
+import { MenuIcon, X } from "lucide-react"
+import { useState } from "react"
 import { Button } from "./button"
 
 const Header = () => {
@@ -16,8 +16,8 @@ const Header = () => {
 
       {/* Mobile Sidebar */}
       <Dialog.Root open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-        <Dialog.Trigger className="lg:hidden">
-          <Button variant="primary" size="full">
+        <Dialog.Trigger className="lg:hidden" asChild>
+          <Button variant="primary" size="icon">
             <MenuIcon />
           </Button>
         </Dialog.Trigger>
@@ -49,8 +49,9 @@ const Header = () => {
               </Dialog.Close>
             </nav>
             <div className="flex justify-center p-6">
-              <div className="flex items-center gap-2">
-                <Button>Faça uma doação</Button>
+              <div className="flex flex-col items-center gap-2">
+                <Button disabled>Faça uma doação</Button>
+                <p className="text-sm">Em breve!</p>
               </div>
             </div>
           </Dialog.Content>
@@ -87,7 +88,10 @@ const Header = () => {
       </nav>
 
       <div className="hidden items-center gap-2 lg:flex">
-        <Button variant="secondary">Faça uma doação</Button>
+        <Button variant="secondary" disabled>
+          Faça uma doação
+        </Button>
+        <p className="text-sm text-white">Em breve!</p>
       </div>
     </header>
   )
