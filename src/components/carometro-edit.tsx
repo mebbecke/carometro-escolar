@@ -27,7 +27,7 @@ const CarometroEdit = () => {
   const [students, setStudents] = useState<Student[]>([])
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isExporting, setIsExporting] = useState(false)
-  const [className, setClassName] = useState("")
+  const [classroomName, setClassroomName] = useState("")
 
   const isStudentArrayEmpty = students.length === 0
 
@@ -97,7 +97,7 @@ const CarometroEdit = () => {
 
     const opt = {
       margin: [10, 10, 10, 10],
-      filename: `Carômetro - ${className || "Turma sem nome"}.pdf`,
+      filename: `Carômetro - ${classroomName || "Turma sem nome"}.pdf`,
       image: { type: "jpeg", quality: 5 },
     }
 
@@ -112,18 +112,18 @@ const CarometroEdit = () => {
 
   const changeClassName = () => {
     const name = document.getElementById("class") as HTMLInputElement
-    if (!name.value) setClassName("")
-    setClassName(name.value)
+    if (!name.value) setClassroomName("")
+    setClassroomName(name.value)
   }
 
   const clearClassName = () => {
     const name = document.getElementById("class") as HTMLInputElement
     name.value = ""
-    setClassName("")
+    setClassroomName("")
   }
 
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div className="flex w-full flex-col gap-4">
       <div className="flex flex-col">
         <label htmlFor="class" className="text-sm font-semibold">
           Nome da turma (opcional)
@@ -150,10 +150,16 @@ const CarometroEdit = () => {
         </div>
       </div>
 
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold">Alunos</h2>
+      </div>
+
       {/* Student Cards */}
       <div id="carometro" className="flex flex-col items-center gap-2">
         {/* Class name */}
-        {className && <h2 className="text-lg font-semibold">{className}</h2>}
+        {classroomName && (
+          <h3 className="text-lg font-semibold">{classroomName}</h3>
+        )}
 
         <div className="flex flex-row flex-wrap items-center justify-center gap-3">
           {isStudentArrayEmpty ? (
