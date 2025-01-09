@@ -40,10 +40,10 @@ const Header = () => {
                     <a href="/carometro">gerar carômetro</a>
                   </li>
                   <li>
-                    <a href="#">sobre</a>
+                    <a href="/about">sobre</a>
                   </li>
                   <li>
-                    <a href="#">feedback</a>
+                    <a href="/feedback">feedback</a>
                   </li>
                 </ul>
               </Dialog.Close>
@@ -74,13 +74,13 @@ const Header = () => {
           </li>
           .
           <li>
-            <a href="#" className="hover:text-[#E4F0FB]">
+            <a href="/about" className="hover:text-[#E4F0FB]">
               sobre
             </a>
           </li>
           .
           <li>
-            <a href="#" className="hover:text-[#E4F0FB]">
+            <a href="/feedback" className="hover:text-[#E4F0FB]">
               feedback
             </a>
           </li>
