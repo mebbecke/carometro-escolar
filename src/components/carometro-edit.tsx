@@ -110,13 +110,13 @@ const CarometroEdit = () => {
       })
   }
 
-  const changeClassName = () => {
+  const changeClassroomName = () => {
     const name = document.getElementById("class") as HTMLInputElement
     if (!name.value) setClassroomName("")
     setClassroomName(name.value)
   }
 
-  const clearClassName = () => {
+  const clearClassroomName = () => {
     const name = document.getElementById("class") as HTMLInputElement
     name.value = ""
     setClassroomName("")
@@ -139,11 +139,15 @@ const CarometroEdit = () => {
               type="button"
               variant="secondary"
               size="full"
-              onClick={() => clearClassName()}
+              onClick={() => clearClassroomName()}
             >
               Limpar turma
             </Button>
-            <Button type="button" onClick={() => changeClassName()} size="full">
+            <Button
+              type="button"
+              onClick={() => changeClassroomName()}
+              size="full"
+            >
               Definir turma
             </Button>
           </div>
@@ -154,7 +158,7 @@ const CarometroEdit = () => {
         <h2 className="text-2xl font-semibold">Alunos</h2>
       </div>
 
-      {/* Student Cards */}
+      {/* Student Cards - This div will be exported in PDF */}
       <div id="carometro" className="flex flex-col items-center gap-2">
         {/* Class name */}
         {classroomName && (
@@ -190,7 +194,7 @@ const CarometroEdit = () => {
         </Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-40 bg-black opacity-30" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 flex w-[90%] -translate-x-1/2 -translate-y-1/2 flex-col gap-3 rounded-lg bg-[#f5f5f5] px-3 py-2">
+          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 flex w-[90%] -translate-x-1/2 -translate-y-1/2 flex-col gap-3 rounded-lg bg-[#f5f5f5] px-3 py-2 lg:w-[600px]">
             <div className="flex flex-row items-center justify-between">
               <Dialog.Title className="text-nowrap text-xl font-bold">
                 Adicionar aluno

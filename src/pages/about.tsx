@@ -14,10 +14,10 @@ export const About = () => {
       </p>
       <p>
         Sugestões e críticas são bem-vindas, deixe suas ideias entrando em
-        contato comigo me{" "}
+        contato comigo{" "}
         <span className="font-semibold">
           <a href="mailto:m.ebbecke@gmail.com" target="_blank">
-            enviando um e-mail
+            através de um e-mail
           </a>
         </span>
         .
