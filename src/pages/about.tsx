@@ -13,12 +13,8 @@ export const About = () => {
         salvar no seu computador, celular ou até imprimir.
       </p>
       <p>
-        Sugestões e críticas são bem-vindas, deixe suas ideias através da seção
-        "
-        <span className="font-semibold">
-          <a href="/feedback">feedback</a>
-        </span>
-        " desse site, ou entre em contato comigo me{" "}
+        Sugestões e críticas são bem-vindas, deixe suas ideias entrando em
+        contato comigo me{" "}
         <span className="font-semibold">
           <a href="mailto:m.ebbecke@gmail.com" target="_blank">
             enviando um e-mail

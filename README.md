@@ -10,6 +10,14 @@ Este projeto foi feito inicialmente para a disciplina "Metodologias ágeis com S
 - React.js
 - Tailwind CSS
 
+## Em desenvolvimento
+
+Acompanhe os próximos objetivos do projeto:
+
+- [ ] Formulário de feedback
+- [ ] Persistência local para melhor experiência do usuário
+- [ ] Sistema de doações
+
 ## Como rodar o projeto localmente
 
 Siga os passos abaixo para rodar o projeto localmente:

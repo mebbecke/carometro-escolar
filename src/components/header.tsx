@@ -42,9 +42,9 @@ const Header = () => {
                   <li>
                     <a href="/about">sobre</a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a href="/feedback">feedback</a>
-                  </li>
+                  </li> */}
                 </ul>
               </Dialog.Close>
             </nav>
@@ -78,12 +78,12 @@ const Header = () => {
               sobre
             </a>
           </li>
-          .
+          {/* .
           <li>
             <a href="/feedback" className="hover:text-[#E4F0FB]">
               feedback
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
 
