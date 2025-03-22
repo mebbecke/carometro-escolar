@@ -58,6 +58,7 @@ const CarometroEdit = () => {
       reader.readAsDataURL(data.image[0]) // reads the first item of FileList array as a URL
       reader.onloadend = () => {
         /* Insert the new student at the end of the array */
+
         // setStudents([
         //   ...students,
         //   { imageUrl: reader.result as string, name: data.name },
@@ -221,7 +222,7 @@ const CarometroEdit = () => {
                   id="image"
                   type="file"
                   accept="image/*"
-                  capture="environment"
+                  // capture="environment"
                   className="rounded-lg border border-gray-300 p-2"
                   {...register("image")}
                 />
