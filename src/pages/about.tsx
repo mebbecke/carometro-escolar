@@ -22,6 +22,27 @@ export const About = () => {
         </span>
         .
       </p>
+
+      <h2 className="text-xl font-semibold">
+        O que o gerador de carômetro faz:
+      </h2>
+      <ul className="list-inside list-disc">
+        <li>
+          Monta um carômetro com fotos adicionadas dos seus arquivos (no pc), ou
+          da galeria ou câmera (no celular).
+        </li>
+        <li>Exporta o carômetro montado no formato PDF.</li>
+      </ul>
+
+      <h2 className="text-xl font-semibold">
+        O que ele <span className="font-bold text-red-500">não</span> faz:
+      </h2>
+      <ul className="list-inside list-disc">
+        <li>
+          O carômetro não fica salvo no site, ou seja, ainda não é possível
+          consultar carômetros gerados anteriormente.
+        </li>
+      </ul>
     </div>
   )
 }
