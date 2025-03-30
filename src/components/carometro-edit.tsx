@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "./button"
 import Card from "./card"
+import Tooltip from "./tooltip"
 
 const formSchema = z.object({
   image: z.instanceof(FileList), // HTML file input returns a FileList array with File/Blob objects
@@ -126,6 +127,7 @@ const CarometroEdit = () => {
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="flex flex-col">
+        <h2 className="text-2xl font-semibold">Qual o nome da turma?</h2>
         <label htmlFor="class" className="text-sm font-semibold">
           Nome da turma (opcional)
         </label>
@@ -155,33 +157,73 @@ const CarometroEdit = () => {
         </div>
       </div>
 
-      <div className="text-center">
-        <h2 className="text-2xl font-semibold">Alunos</h2>
+      <div className="flex flex-row items-center gap-2">
+        <h2 className="text-2xl font-semibold">Adicione os alunos</h2>
+        <Tooltip text="Não se preocupe com a distribuição dos alunos nessa página. No PDF, os alunos serão organizados em fileiras de 5, com 25 alunos por página." />
       </div>
 
       {/* Student Cards - This div will be exported in PDF */}
-      <div id="carometro" className="flex flex-col items-center gap-2">
+      <div
+        id="carometro"
+        className={`flex flex-col items-center gap-2 ${!isExporting && "border border-solid"}`}
+      >
         {/* Class name */}
-        {classroomName && (
-          <h3 className="text-lg font-semibold">{classroomName}</h3>
-        )}
+        <h3 className="mb-6 text-xl font-semibold">
+          Carômetro{classroomName && ": " + classroomName}
+        </h3>
 
         <div className="flex flex-row flex-wrap items-center justify-center gap-3">
           {isStudentArrayEmpty ? (
-            <p className="text-center text-sm text-[#B0B0B0]">
-              Nenhum aluno adicionado
+            <p className="mb-4 text-center text-sm text-[#B0B0B0]">
+              Nenhum aluno adicionado.
             </p>
           ) : (
-            students.map((student, index) => (
-              <div key={index} className="flex flex-col items-center gap-1">
-                <Card
-                  imageUrl={student.imageUrl}
-                  name={student.name}
-                  onDelete={() => deleteStudent(index)}
-                  isExporting={isExporting}
-                />
-              </div>
-            ))
+            /* Students display before pagination */
+
+            // students.map((student, index) => (
+            //   <div key={index} className="flex flex-col items-center gap-1">
+            //     <Card
+            //       imageUrl={student.imageUrl}
+            //       name={student.name}
+            //       onDelete={() => deleteStudent(index)}
+            //       isExporting={isExporting}
+            //     />
+            //   </div>
+            // ))
+
+            /* Display students into pages of 25 */
+            students
+              .reduce((acc, student, index) => {
+                const pageIndex = Math.floor(index / 25)
+                if (!acc[pageIndex]) acc[pageIndex] = []
+                acc[pageIndex].push(student)
+                return acc
+              }, [] as Student[][])
+              .map((group, groupIndex) => (
+                <div
+                  key={groupIndex}
+                  className={`mb-8 flex flex-col gap-12 text-center ${!isExporting && "border-b"}`}
+                >
+                  <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+                    {group.map((student, index) => (
+                      <div
+                        key={index}
+                        className="flex flex-col items-center gap-1"
+                      >
+                        <Card
+                          imageUrl={student.imageUrl}
+                          name={student.name}
+                          onDelete={() =>
+                            deleteStudent(index + groupIndex * 25)
+                          }
+                          isExporting={isExporting}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <h3 className="text-xs">Página {groupIndex + 1}</h3>
+                </div>
+              ))
           )}
         </div>
       </div>
