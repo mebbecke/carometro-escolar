@@ -58,13 +58,6 @@ const CarometroEdit = () => {
       const reader = new FileReader()
       reader.readAsDataURL(data.image[0]) // reads the first item of FileList array as a URL
       reader.onloadend = () => {
-        /* Insert the new student at the end of the array */
-
-        // setStudents([
-        //   ...students,
-        //   { imageUrl: reader.result as string, name: data.name },
-        // ])
-
         /* Insert the new student in alphabetic order */
         const newStudent = {
           imageUrl: reader.result as string,
@@ -178,19 +171,6 @@ const CarometroEdit = () => {
               Nenhum aluno adicionado.
             </p>
           ) : (
-            /* Students display before pagination */
-
-            // students.map((student, index) => (
-            //   <div key={index} className="flex flex-col items-center gap-1">
-            //     <Card
-            //       imageUrl={student.imageUrl}
-            //       name={student.name}
-            //       onDelete={() => deleteStudent(index)}
-            //       isExporting={isExporting}
-            //     />
-            //   </div>
-            // ))
-
             /* Display students into pages of 25 */
             students
               .reduce((acc, student, index) => {
@@ -264,7 +244,6 @@ const CarometroEdit = () => {
                   id="image"
                   type="file"
                   accept="image/*"
-                  // capture="environment"
                   className="rounded-lg border border-gray-300 p-2"
                   {...register("image")}
                 />
